@@ -38,7 +38,12 @@ Cinemagic is a Flutter application that allows users to explore and preview top-
   <img src="screenshots/TvShowsHome.png" width="45%" />
 </p>
 
+Home Screen: Explore a wide range of movies/tv shows with detailed previews and easy navigation.
+
 <p float="left">
   <img src="screenshots/WatchLater.png" width="45%" />
   <img src="screenshots/MovieInfo.png" width="45%" />
 </p>
+
+Watch Later: Save your favorite movies and shows for convenient access anytime.
+Movie Info: Get in-depth details about your selected movie, including ratings and overviews.
