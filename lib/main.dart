@@ -1,6 +1,6 @@
 import 'package:cinemagic/Theme.dart';
 import 'package:flutter/material.dart';
-import 'package:cinemagic/Screens/tabs.dart';
+import 'package:cinemagic/Screens/Tabs.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 

@@ -5,11 +5,11 @@ class Actor {
   final String image;
 }
 
-Actor convertActor(Map<String, dynamic> data) {
+Actor actorConverter(Map<String, dynamic> data) {
   return Actor(
     name: data['original_name'],
     image: (data['profile_path'] != null)
         ? "http://image.tmdb.org/t/p/w500" + data['profile_path']
-        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6Q82WISxpWPp5dHBTWHypFOZbRTvc0ST0xQ&s",
+        : "https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg",
   );
 }

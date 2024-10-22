@@ -1,62 +1,69 @@
-import 'package:cinemagic/Api.dart';
-import 'package:cinemagic/Models/Tv.dart';
-import 'package:cinemagic/Models/actor.dart';
-import 'package:cinemagic/Widgets/smallSlider.dart';
+import 'package:cinemagic/Widgets/CustomScroll_AppBar.dart';
+import 'package:cinemagic/Widgets/Reg_Slider.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cinemagic/Models/movie.dart';
-import 'package:cinemagic/Widgets/MovieAppBar.dart';
+import 'package:cinemagic/Api.dart';
+import 'package:cinemagic/Models/Motion.dart';
+import 'package:cinemagic/Models/Actor.dart';
 
-class Movieinfo extends StatefulWidget {
-  const Movieinfo({super.key, required this.item, required this.type});
+class motionInfo extends StatefulWidget {
+  const motionInfo({super.key, required this.item});
 
-  final dynamic item;
-  final String type;
+  final Motion item;
 
   @override
-  State<Movieinfo> createState() => _MovieinfoState();
+  State<motionInfo> createState() => _MovieinfoState();
 }
 
-class _MovieinfoState extends State<Movieinfo> {
+class _MovieinfoState extends State<motionInfo> {
   List<Actor> cast = [];
-  List<dynamic> similar = [];
-  bool _isLoading1 = true;
-  bool _isLoading2 = true;
+  bool _isCastLoading = true;
+
+  List<Motion> similar = [];
+  bool _isSimilarLoading = true;
+
+  String error = "";
 
   void _getcast(int id) async {
-    var result = (widget.type == "Movie")
-        ? await tmdb.v3.movies.getCredits(id)
-        : await tmdb.v3.tv.getCredits(id);
-    setState(() {
-      result['cast']
-          .map(
-            (Actor) => cast.add(convertActor(Actor)),
-          )
-          .toList();
-      _isLoading1 = false;
-    });
+    try {
+      Motiontype idType = widget.item.type;
+      var result = (idType == Motiontype.movie)
+          ? await tmdb.v3.movies.getCredits(id)
+          : await tmdb.v3.tv.getCredits(id);
+      setState(() {
+        result['cast']
+            .map(
+              (actor) => cast.add(
+                actorConverter(actor),
+              ),
+            )
+            .toList();
+        _isSimilarLoading = false;
+      });
+    } catch (err) {
+      error = "No Internet Connection, Please Try Again Later";
+    }
   }
 
   void _getsimilar(int id) async {
-    var result = (widget.type == "Movie")
-        ? await tmdb.v3.movies.getSimilar(id)
-        : await tmdb.v3.tv.getSimilar(id);
-    setState(() {
-      if (widget.type == "Movie") {
+    try {
+      Motiontype idType = widget.item.type;
+      var result = (idType == Motiontype.movie)
+          ? await tmdb.v3.movies.getSimilar(id)
+          : await tmdb.v3.tv.getSimilar(id);
+      setState(() {
         result['results']
             .map(
-              (movie) => similar.add(convertData(movie)),
+              (motion) => similar.add(
+                converter(motion, idType),
+              ),
             )
             .toList();
-      } else {
-        result['results']
-            .map(
-              (show) => similar.add(convertShowData(show)),
-            )
-            .toList();
-      }
-      _isLoading2 = false;
-    });
+        _isCastLoading = false;
+      });
+    } catch (err) {
+      error = "No Internet Connection, Please Try Again Later";
+    }
   }
 
   @override
@@ -69,15 +76,14 @@ class _MovieinfoState extends State<Movieinfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: (_isLoading1 && _isLoading2)
+      body: (_isCastLoading && _isSimilarLoading)
           ? const Center(
               child: CircularProgressIndicator(),
             )
           : CustomScrollView(
               slivers: [
-                Movieappbar(
+                CustomAppBar(
                   item: widget.item,
-                  type: widget.type,
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate(
@@ -107,9 +113,15 @@ class _MovieinfoState extends State<Movieinfo> {
                               ),
                             ),
                             if (cast.isNotEmpty) const SizedBox(height: 10),
-                            Smallslider(ActorList: cast, type: "Actor"),
+                            regSlider(
+                              items: cast,
+                              title: "Cast :",
+                            ),
                             if (similar.isNotEmpty) const SizedBox(height: 10),
-                            Smallslider(MovieList: similar, type: "Movie"),
+                            regSlider(
+                              items: similar,
+                              title: "Similar Movies :",
+                            ),
                           ],
                         ),
                       ),
