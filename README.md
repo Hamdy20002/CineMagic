@@ -49,6 +49,7 @@ Home Screen: Explore a wide range of movies/tv shows with detailed previews and 
 </p>
 
 Watch Later: Save your favorite movies and shows for convenient access anytime.
+
 Movie Info: Get in-depth details about your selected movie, including ratings and overviews.
 
 <p float="left">
