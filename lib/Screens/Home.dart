@@ -1,7 +1,6 @@
+import 'package:cinemagic/Models/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:cinemagic/Api.dart';
 import 'package:cinemagic/Models/Motion.dart';
 import 'package:cinemagic/Widgets/Carousels_Slider.dart';
 import 'package:cinemagic/Widgets/Reg_Slider.dart';
@@ -9,115 +8,63 @@ import 'package:cinemagic/Widgets/Reg_Slider.dart';
 class home extends ConsumerStatefulWidget {
   const home({super.key, required this.type});
 
-  final Motiontype type;
+  final main_types type;
 
   @override
   _MoviehomeState createState() => _MoviehomeState();
 }
 
 class _MoviehomeState extends ConsumerState<home> {
+  final Map<main_types, List<Motion>> cached_nowPlay = {};
+  final Map<main_types, List<Motion>> cached_topRated = {};
+  final Map<main_types, List<Motion>> cached_popular = {};
+
   List<Motion> nowPlay = [];
-  late bool _isNowPlayLoading;
-
   List<Motion> topRated = [];
-  late bool _isTopRatedLoading;
-
   List<Motion> popular = [];
-  late bool _isPoularLoading;
-
+  bool isLoading = false;
   String error = "";
-  late String typeText;
 
-  void _loadNowPlaying(Motiontype type) async {
-    try {
-      var result = (type == Motiontype.movie)
-          ? await tmdb.v3.movies.getNowPlaying()
-          : await tmdb.v3.tv.getOnTheAir();
-
+  void _handleData() async {
+    if (cached_nowPlay.containsKey(widget.type)) {
       setState(() {
-        result["results"]
-            .take(10)
-            .map(
-              (motion) => nowPlay.add(
-                converter(motion, type),
-              ),
-            )
-            .toList();
-        _isNowPlayLoading = false;
+        nowPlay = cached_nowPlay[widget.type]!;
+        topRated = cached_topRated[widget.type]!;
+        popular = cached_popular[widget.type]!;
+        isLoading = false;
       });
-    } catch (err) {
-      setState(() {
-        error = "No Internet Connection, Please Try Again Later";
-        _isNowPlayLoading = false;
-      });
+      return;
     }
-  }
 
-  void _loadTopMovies(Motiontype type) async {
-    try {
-      var result = (type == Motiontype.movie)
-          ? await tmdb.v3.movies.getTopRated()
-          : await tmdb.v3.tv.getTopRated();
-
-      setState(() {
-        result["results"]
-            .take(10)
-            .map(
-              (motion) => topRated.add(
-                converter(motion, type),
-              ),
-            )
-            .toList();
-        _isTopRatedLoading = false;
-      });
-    } catch (err) {
-      setState(() {
-        error = "No Internet Connection, Please Try Again Later";
-        _isTopRatedLoading = false;
-      });
-    }
-  }
-
-  void _loadPopular(Motiontype type) async {
-    try {
-      var result = (type == Motiontype.movie)
-          ? await tmdb.v3.movies.getPopular()
-          : await tmdb.v3.tv.getPopular();
-
-      setState(() {
-        result["results"]
-            .take(10)
-            .map(
-              (motion) => popular.add(
-                converter(motion, type),
-              ),
-            )
-            .toList();
-        _isPoularLoading = false;
-      });
-    } catch (err) {
-      setState(() {
-        error = "No Internet Connection, Please Try Again Later";
-        _isPoularLoading = false;
-      });
-    }
-  }
-
-  void _handleData() {
     setState(() {
-      nowPlay.clear();
-      topRated.clear();
-      popular.clear();
-      _isNowPlayLoading = true;
-      _isTopRatedLoading = true;
-      _isPoularLoading = true;
+      isLoading = true;
       error = "";
     });
 
-    typeText = (widget.type == Motiontype.movie) ? "Movies" : "Shows";
-    _loadNowPlaying(widget.type);
-    _loadTopMovies(widget.type);
-    _loadPopular(widget.type);
+    try {
+      if (!mounted) return;
+      final nowPlayData = await loadNowPlaying(widget.type);
+      final topRatedData = await loadTopRated(widget.type, 1);
+      final popularData = await loadPopular(widget.type, 1);
+
+      setState(() {
+        nowPlay = nowPlayData.take(5).toList();
+        topRated = topRatedData.take(5).toList();
+        popular = popularData.sublist(5).toList();
+
+        cached_nowPlay[widget.type] = nowPlay;
+        cached_topRated[widget.type] = topRated;
+        cached_popular[widget.type] = popular;
+
+        isLoading = false;
+      });
+    } catch (err) {
+      if (!mounted) return;
+      setState(() {
+        error = err.toString();
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -136,19 +83,13 @@ class _MoviehomeState extends ConsumerState<home> {
 
   @override
   Widget build(BuildContext context) {
-    return (_isNowPlayLoading && _isTopRatedLoading && _isPoularLoading)
-        ? const Center(
-            child: CircularProgressIndicator(),
-          )
-        : (error != "")
-            ? Center(
-                child: Text(error),
-              )
+    return isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : (error.isNotEmpty)
+            ? Center(child: Text(error))
             : ListView(
                 children: [
-                  carouselsSlider(
-                    items: nowPlay,
-                  ),
+                  carouselsSlider(items: nowPlay),
                   const SizedBox(height: 30),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -157,12 +98,14 @@ class _MoviehomeState extends ConsumerState<home> {
                       children: [
                         regSlider(
                           items: topRated,
-                          title: "Top Rated $typeText",
+                          title: "Top Rated ${widget.type.name}",
+                          type: widget.type,
                         ),
                         const SizedBox(height: 10),
                         regSlider(
                           items: popular,
-                          title: "Popular $typeText",
+                          title: "Popular ${widget.type.name}",
+                          type: widget.type,
                         ),
                       ],
                     ),

@@ -1,4 +1,5 @@
-import 'package:cinemagic/Widgets/CustomScroll_AppBar.dart';
+import 'package:cinemagic/Models/data.dart';
+import 'package:cinemagic/Widgets/appBar_Info.dart';
 import 'package:cinemagic/Widgets/Reg_Slider.dart';
 import 'package:flutter/material.dart';
 
@@ -26,8 +27,8 @@ class _MovieinfoState extends State<motionInfo> {
 
   void _getcast(int id) async {
     try {
-      Motiontype idType = widget.item.type;
-      var result = (idType == Motiontype.movie)
+      main_types idType = widget.item.type;
+      var result = (idType == main_types.movie)
           ? await tmdb.v3.movies.getCredits(id)
           : await tmdb.v3.tv.getCredits(id);
       setState(() {
@@ -47,8 +48,8 @@ class _MovieinfoState extends State<motionInfo> {
 
   void _getsimilar(int id) async {
     try {
-      Motiontype idType = widget.item.type;
-      var result = (idType == Motiontype.movie)
+      main_types idType = widget.item.type;
+      var result = (idType == main_types.movie)
           ? await tmdb.v3.movies.getSimilar(id)
           : await tmdb.v3.tv.getSimilar(id);
       setState(() {
@@ -116,11 +117,13 @@ class _MovieinfoState extends State<motionInfo> {
                             regSlider(
                               items: cast,
                               title: "Cast :",
+                              type: main_types.actor,
                             ),
                             if (similar.isNotEmpty) const SizedBox(height: 10),
                             regSlider(
                               items: similar,
-                              title: "Similar Movies :",
+                              title: "Similar :",
+                              type: widget.item.type,
                             ),
                           ],
                         ),

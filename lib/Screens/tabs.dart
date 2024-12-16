@@ -1,39 +1,59 @@
-import 'package:cinemagic/Models/Motion.dart';
+import 'package:cinemagic/Models/data.dart';
 import 'package:cinemagic/Screens/Home.dart';
 import 'package:cinemagic/Screens/Watch_Later.dart';
 import 'package:flutter/material.dart';
 
 class tab extends StatefulWidget {
+  const tab({super.key});
+
   @override
   State<tab> createState() => _tabState();
 }
 
 class _tabState extends State<tab> {
   late int _activeIndex;
-  late Motiontype _currentType;
+  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
     _activeIndex = 0;
-    _currentType = Motiontype.movie;
+    _pageController = PageController(initialPage: _activeIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _currentType = Motiontype.movie;
-    if (_activeIndex == 1) {
-      _currentType = Motiontype.Show;
-    }
-
     return Scaffold(
-      body: (_activeIndex != 2) ? home(type: _currentType) : watchLater(),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _activeIndex = index;
+          });
+        },
+        children: [
+          home(type: main_types.movie),
+          home(type: main_types.show),
+          watchLater(),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _activeIndex,
         onTap: (index) {
           setState(() {
             _activeIndex = index;
           });
+          _pageController.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInToLinear,
+          );
         },
         items: const [
           BottomNavigationBarItem(
@@ -47,7 +67,7 @@ class _tabState extends State<tab> {
           BottomNavigationBarItem(
             icon: Icon(Icons.watch_later),
             label: "Watch Later",
-          )
+          ),
         ],
       ),
     );

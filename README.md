@@ -6,44 +6,53 @@ Cinemagic is a Flutter application that allows users to explore and preview top-
 
 ## Features
 
-- **Movie & TV Show Previews**: Display detailed information about movies and TV shows, including:
-  - Title
-  - Rating
-  - Release date
-  - Overview
-  - Background image
-  - Similar movies/TV shows
-- **Watch Later Section**: Users can save their favorite movies and TV shows for later viewing, even after closing the app.
-- **ImageSlider**: Showcases Now Playing movies/TV shows with automatic playback of movies/TV shows posters and backgrounds.
-- **Top Rated Section**: Displays a selection of the top 10 movies/TV shows.
-- **Popular Section**: Displays a selection of the top 10 movies/TV shows.
-- **Bottom Navigation Bar**: Easily navigate between Movies, TV Shows, and the Watch Later section.
-- **Loading and Connectivity**: The app includes a loading screen to ensure smooth data fetching when opening or navigating. If the phone has no internet connection, a message will appear, informing the user of the issue.
-- **Responsive Design**: Adaptable layout for different screen sizes, with smooth resizing animations.
-- **Dark/Light Theme Support**: The app supports both dark and light themes, providing a comfortable viewing experience in different lighting conditions.
+- **Movie & TV Show Previews**: View essential details like title, rating, release date, and overview for each movie/show.
+- **Now Playing Preview with Carousel Slider**: View now-playing movies/TV shows in a visually engaging carousel slider with smooth page indicators, allowing users to effortlessly scroll through featured content.
+- **Watch Later**: Save movies and shows for future viewing, accessible even after closing the app.
+- **Top Rated & Popular Sections with Endless Scroll**: Easily browse top-rated and popular movies/TV shows, with smooth scrolling and navigation. Access an endless list of movies/shows by clicking the "View All" button, which loads more items as you scroll down.
+- **Responsive Design & Dark/Light Themes**: Enjoy seamless adaptation to different screen sizes and themes for a comfortable experience in various lighting.
+- **Data Caching**: Faster loading on subsequent app launches with cached data.
+- **Bottom Navigation & Page Indicators**: Effortless navigation between Movies, TV Shows, and Watch Later sections with stylish page indicators.
 
 ## Dependencies
 
-- `tmdb_api`: ^2.2.0 - A Flutter library for accessing the TMDB API.
-- `carousel_slider`: ^5.0.0 - A package for implementing carousel sliders for image galleries.
-- `url_launcher`: ^6.3.1 - A Flutter plugin for launching URLs in the mobile platform.
-- `flutter_riverpod`: ^2.6.0 - A robust and flexible state management solution for Flutter applications.
-- `shared_preferences`: ^2.3.2 - A Flutter plugin for persisting simple data across app launches.
+- `tmdb_api: ^2.2.0` A Flutter library for accessing the TMDB API.
+- `carousel_slider: ^5.0.0` A package for implementing carousel sliders for image galleries.
+- `url_launcher: ^6.3.1` A Flutter plugin for launching URLs in the mobile platform.
+- `flutter_riverpod: ^2.6.0` A robust and flexible state management solution for Flutter applications.
+- `shared_preferences: ^2.3.2` A Flutter plugin for persisting simple data across app launches.
+- `smooth_page_indicator: ^1.2.0+3` A Flutter package for creating customizable page indicators with smooth animations.
+- `flutter_dotenv: ^5.2.1` A Flutter package for securely managing environment variables in your Flutter app, such as API keys.
 
+## .env File
+
+The application uses a `.env` file that put in `lib\` path
+and Here is the content the file:
+
+```
+apiKeyV3 = '..........'
+apiReadAccessTokenv4 = '..............'
+```
 
 ## Screenshots
 
 <p float="left">
-  <img src="screenshots/MoviesHome.png" width="45%" />
-  <img src="screenshots/TvShowsHome.png" width="45%" />
+  <img src="screenshots/MoviesHome_V1.png" width="45%" />
+  <img src="screenshots/TvShowsHome_V1.png" width="45%" />
 </p>
 
 Home Screen: Explore a wide range of movies/tv shows with detailed previews and easy navigation.
 
 <p float="left">
-  <img src="screenshots/WatchLater.png" width="45%" />
-  <img src="screenshots/MovieInfo.png" width="45%" />
+  <img src="screenshots/WatchLater_V1.png" width="45%" />
+  <img src="screenshots/MovieInfo_V1.png" width="45%" />
 </p>
 
 Watch Later: Save your favorite movies and shows for convenient access anytime.
 Movie Info: Get in-depth details about your selected movie, including ratings and overviews.
+
+<p float="left">
+  <img src="screenshots/ViewAll_V1.png" width="45%" />
+</p>
+View All: Browse an endless list of popular/top-rated movies/shows, with new items loading as you scroll.
+```

@@ -1,7 +1,4 @@
-enum Motiontype {
-  movie,
-  Show,
-}
+import 'package:cinemagic/Models/data.dart';
 
 class Motion {
   const Motion({
@@ -16,7 +13,7 @@ class Motion {
   });
 
   final int id;
-  final Motiontype type;
+  final main_types type;
   final String name;
   final String overview;
   final String release;
@@ -40,7 +37,8 @@ class Motion {
   factory Motion.fromJson(Map<String, dynamic> json) {
     return Motion(
       id: json['id'],
-      type: Motiontype.values.firstWhere((e) => e.toString().split('.').last == json['type']),
+      type: main_types.values
+          .firstWhere((e) => e.toString().split('.').last == json['type']),
       name: json['name'],
       overview: json['overview'],
       release: json['release'],
@@ -51,13 +49,13 @@ class Motion {
   }
 }
 
-Motion converter(Map<String, dynamic> data, Motiontype type) {
+Motion converter(Map<String, dynamic> data, main_types type) {
   return Motion(
     id: data['id'],
     type: type,
-    name: (type == Motiontype.movie) ? data['title'] : data['original_name'],
+    name: (type == main_types.movie) ? data['title'] : data['original_name'],
     overview: data['overview'],
-    release: (type == Motiontype.movie)
+    release: (type == main_types.movie)
         ? data['release_date']
         : data['first_air_date'],
     image: (data['poster_path'] != null)

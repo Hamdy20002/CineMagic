@@ -1,5 +1,6 @@
-import 'package:cinemagic/Models/Motion.dart';
+import 'package:cinemagic/Models/data.dart';
 import 'package:cinemagic/Screens/info.dart';
+import 'package:cinemagic/Screens/view_all.dart';
 import 'package:flutter/material.dart';
 
 class regSlider extends StatelessWidget {
@@ -7,21 +8,40 @@ class regSlider extends StatelessWidget {
     super.key,
     required this.items,
     required this.title,
+    required this.type,
   });
 
   final List<dynamic> items;
   final String title;
+  final main_types type;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Spacer(),
+            if (type != main_types.actor)
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (ctx) => viewAll(type: type, title: title),
+                    ),
+                  );
+                },
+                child: Text("View All"),
+              ),
+          ],
         ),
         const SizedBox(height: 20),
         SizedBox(
@@ -39,7 +59,7 @@ class regSlider extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        if (title != "Cast :") {
+                        if (type != main_types.actor) {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (ctx) => motionInfo(
