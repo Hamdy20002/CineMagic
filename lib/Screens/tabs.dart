@@ -1,10 +1,14 @@
 import 'package:cinemagic/Models/data.dart';
 import 'package:cinemagic/Screens/Home.dart';
 import 'package:cinemagic/Screens/Watch_Later.dart';
+import 'package:cinemagic/Screens/userinfo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class tab extends StatefulWidget {
-  const tab({super.key});
+  const tab({super.key, required this.is_User});
+
+  final bool is_User;
 
   @override
   State<tab> createState() => _tabState();
@@ -29,6 +33,32 @@ class _tabState extends State<tab> {
 
   @override
   Widget build(BuildContext context) {
+    List<BottomNavigationBarItem> NavBarItems = [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.movie),
+        activeIcon: Icon(Icons.movie_outlined),
+        label: "Movies",
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.tv),
+        activeIcon: Icon(Icons.live_tv_rounded),
+        label: "TvShows",
+      ),
+    ];
+    if (widget.is_User) {
+      NavBarItems.addAll([
+        BottomNavigationBarItem(
+          icon: Icon(Icons.watch_later),
+          activeIcon: Icon(Icons.watch_later_outlined),
+          label: "Watch Later",
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.account_circle),
+          activeIcon: Icon(Icons.account_circle_outlined),
+          label: "Profile",
+        ),
+      ]);
+    }
     return Scaffold(
       body: PageView(
         controller: _pageController,
@@ -40,10 +70,14 @@ class _tabState extends State<tab> {
         children: [
           home(type: main_types.movie),
           home(type: main_types.show),
-          watchLater(),
+          if (widget.is_User) watchLater(),
+          if (widget.is_User) userInfo(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Theme.of(context).colorScheme.onSurface,
+        iconSize: 24.sp,
         currentIndex: _activeIndex,
         onTap: (index) {
           setState(() {
@@ -55,20 +89,7 @@ class _tabState extends State<tab> {
             curve: Curves.easeInToLinear,
           );
         },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.movie),
-            label: "Movies",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.tv_rounded),
-            label: "TvShows",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.watch_later),
-            label: "Watch Later",
-          ),
-        ],
+        items: NavBarItems,
       ),
     );
   }

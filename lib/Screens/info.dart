@@ -2,7 +2,7 @@ import 'package:cinemagic/Models/data.dart';
 import 'package:cinemagic/Widgets/appBar_Info.dart';
 import 'package:cinemagic/Widgets/Reg_Slider.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cinemagic/Api.dart';
 import 'package:cinemagic/Models/Motion.dart';
 import 'package:cinemagic/Models/Actor.dart';
@@ -90,41 +90,46 @@ class _MovieinfoState extends State<motionInfo> {
                   delegate: SliverChildListDelegate(
                     [
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 20,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 15.w,
+                          vertical: 20.h,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               "Overview:",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 20.sp,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(10),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10.w,
+                                vertical: 10.h,
+                              ),
                               child: Text(
                                 widget.item.overview,
-                                style: const TextStyle(
-                                  fontSize: 15,
+                                style: TextStyle(
+                                  fontSize: 15.sp,
                                 ),
                               ),
                             ),
-                            if (cast.isNotEmpty) const SizedBox(height: 10),
-                            regSlider(
-                              items: cast,
-                              title: "Cast :",
-                              type: main_types.actor,
-                            ),
-                            if (similar.isNotEmpty) const SizedBox(height: 10),
-                            regSlider(
-                              items: similar,
-                              title: "Similar :",
-                              type: widget.item.type,
-                            ),
+                            SizedBox(height: 10.h),
+                            if (cast.isNotEmpty)
+                              regSlider(
+                                items: cast,
+                                title: "Cast :",
+                                type: main_types.actor,
+                              ),
+                            SizedBox(height: 10.h),
+                            if (similar.isNotEmpty)
+                              regSlider(
+                                items: similar,
+                                title: "Similar :",
+                                type: widget.item.type,
+                              ),
                           ],
                         ),
                       ),

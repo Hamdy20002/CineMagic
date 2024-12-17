@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cinemagic/Models/Motion.dart';
 import 'package:cinemagic/Widgets/Carousels_Slider.dart';
 import 'package:cinemagic/Widgets/Reg_Slider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class home extends ConsumerStatefulWidget {
   const home({super.key, required this.type});
@@ -84,15 +85,19 @@ class _MoviehomeState extends ConsumerState<home> {
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? const Center(child: CircularProgressIndicator())
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
         : (error.isNotEmpty)
-            ? Center(child: Text(error))
+            ? Center(
+                child: Text(error),
+              )
             : ListView(
                 children: [
                   carouselsSlider(items: nowPlay),
-                  const SizedBox(height: 30),
+                  SizedBox(height: 30.h),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -101,7 +106,7 @@ class _MoviehomeState extends ConsumerState<home> {
                           title: "Top Rated ${widget.type.name}",
                           type: widget.type,
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                         regSlider(
                           items: popular,
                           title: "Popular ${widget.type.name}",

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 var KLightScheme = ColorScheme.fromSeed(
-  seedColor: Color(0xFF00ADB5),
+  seedColor: Color(0xFF8785A2),
 );
 ThemeData LightTheme = ThemeData().copyWith(
   colorScheme: KLightScheme,

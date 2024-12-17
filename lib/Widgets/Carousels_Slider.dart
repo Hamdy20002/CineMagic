@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:cinemagic/Models/Motion.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class carouselsSlider extends StatefulWidget {
   const carouselsSlider({super.key, required this.items});
@@ -28,7 +29,7 @@ class _ImagesliderState extends State<carouselsSlider> {
     return Column(
       children: [
         Container(
-          height: 350,
+          height: 350.h,
           width: double.infinity,
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -51,7 +52,7 @@ class _ImagesliderState extends State<carouselsSlider> {
                   child: Image.network(
                     newitems[_currentIndex].background,
                     fit: BoxFit.cover,
-                    height: 280,
+                    height: 280.h,
                     width: double.infinity,
                   ),
                 ),
@@ -93,7 +94,7 @@ class _ImagesliderState extends State<carouselsSlider> {
             ],
           ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         AnimatedSmoothIndicator(
           activeIndex: _currentIndex,
           count: newitems.length,

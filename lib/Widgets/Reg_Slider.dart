@@ -2,6 +2,7 @@ import 'package:cinemagic/Models/data.dart';
 import 'package:cinemagic/Screens/info.dart';
 import 'package:cinemagic/Screens/view_all.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class regSlider extends StatelessWidget {
   const regSlider({
@@ -24,8 +25,8 @@ class regSlider extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 22,
+              style: TextStyle(
+                fontSize: 22.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -43,17 +44,17 @@ class regSlider extends StatelessWidget {
               ),
           ],
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
         SizedBox(
-          height: 250,
+          height: 250.h,
           width: double.infinity,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: items.length,
             itemBuilder: (ctx, index) => Padding(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
               child: SizedBox(
-                height: 180,
+                height: 180.h,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -72,12 +73,12 @@ class regSlider extends StatelessWidget {
                       child: Image.network(
                         items[index].image,
                         fit: BoxFit.fill,
-                        height: 140,
-                        width: 100,
+                        height: 140.h,
+                        width: 100.w,
                       ),
                     ),
                     SizedBox(
-                      width: 100,
+                      width: 100.w,
                       child: Text(
                         items[index].name,
                         maxLines: 3,

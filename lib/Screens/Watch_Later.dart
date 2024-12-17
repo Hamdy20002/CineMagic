@@ -1,7 +1,7 @@
 import 'package:cinemagic/Models/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cinemagic/Models/Motion.dart';
 import 'package:cinemagic/WatcghLater_Provider.dart';
 import 'package:cinemagic/Widgets/Reg_Slider.dart';
@@ -22,7 +22,7 @@ class watchLater extends ConsumerWidget {
             child: Text("Hmm...\nTry Adding SomeThing"),
           )
         : Padding(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
             child: ListView(
               children: [
                 if (laterTvshows.isNotEmpty)
@@ -31,7 +31,7 @@ class watchLater extends ConsumerWidget {
                     title: "TvShows",
                     type: main_types.show,
                   ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 if (laterMovies.isNotEmpty)
                   regSlider(
                     items: laterMovies,

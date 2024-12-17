@@ -2,6 +2,7 @@ import 'package:cinemagic/Models/data.dart';
 import 'package:cinemagic/Screens/info.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemagic/Models/Motion.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class viewAll extends StatefulWidget {
   const viewAll({super.key, required this.type, required this.title});
@@ -83,13 +84,13 @@ class _viewAllState extends State<viewAll> {
       body: (_isLoading && _items.isEmpty)
           ? const Center(child: CircularProgressIndicator())
           : Padding(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
               child: GridView.builder(
                 controller: _scrollController,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10.w,
+                  mainAxisSpacing: 10.h,
                 ),
                 itemCount: _items.length + (_hasMoreData ? 1 : 0),
                 itemBuilder: (ctx, index) {
@@ -118,11 +119,13 @@ class _viewAllState extends State<viewAll> {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height: 10.h),
                           Text(
                             _items[index].name,
-                            style: const TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 14.sp),
                             textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),

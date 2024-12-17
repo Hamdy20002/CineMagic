@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cinemagic/Models/Motion.dart';
 import 'package:cinemagic/WatcghLater_Provider.dart';
 
@@ -17,63 +17,63 @@ class CustomAppBar extends ConsumerWidget {
       iconTheme: const IconThemeData(
         color: Colors.white,
       ),
-      expandedHeight: 300,
+      expandedHeight: 300.h,
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
         title: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 10.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                width: 200,
+                width: 200.w,
                 child: Text(
                   item.name,
-                  style: const TextStyle(
-                    backgroundColor: Color.fromARGB(48, 0, 0, 0),
+                  style: TextStyle(
+                    backgroundColor: Color.fromARGB(50, 0, 0, 0),
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              const SizedBox(height: 5),
+              SizedBox(height: 5.h),
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.date_range,
                     color: Colors.green,
-                    size: 17,
+                    size: 17.sp,
                   ),
-                  const SizedBox(width: 5),
+                  SizedBox(width: 5.w),
                   Text(
                     item.release,
-                    style: const TextStyle(
-                      backgroundColor: Color.fromARGB(48, 0, 0, 0),
+                    style: TextStyle(
+                      backgroundColor: Color.fromARGB(50, 0, 0, 0),
                       color: Colors.white,
-                      fontSize: 10,
+                      fontSize: 10.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 5),
+              SizedBox(height: 5.h),
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.star,
                     color: Colors.yellow,
-                    size: 17,
+                    size: 17.sp,
                   ),
-                  const SizedBox(width: 5),
+                  SizedBox(width: 5.w),
                   Text(
                     item.rate,
-                    style: const TextStyle(
-                      backgroundColor: Color.fromARGB(48, 0, 0, 0),
+                    style: TextStyle(
+                      backgroundColor: Color.fromARGB(50, 0, 0, 0),
                       color: Colors.white,
-                      fontSize: 10,
+                      fontSize: 10.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
